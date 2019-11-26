@@ -10,8 +10,6 @@ const Logger = require('../logger/logger');
 const logger = new Logger();
 
 let newsList = [];
-newsList.push(new News());
-newsList.push(new News());
 
 router.use(function timeLog(req, res, next) {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -28,21 +26,21 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    newsList.push(new News(...Object.values(req.body)));
-    res.status(200).send("Added");
+    newsList.push(new News(req.body));
+    res.status(201).send();
 });
 
 router.put('/:id', (req, res) => {
     let index = newsList.findIndex(el => el.id == req.params.id);
 
-    newsList[index] = new News(...Object.values(req.body));
+    newsList[index] = new News(req.body);
 
-    res.status(200).send("Changed");
+    res.status(200).send();
 });
 
 router.delete('/:id', (req, res) => {
     newsList = newsList.filter(el => el.id != req.params.id);
-    res.status(200).send("Deleted");
+    res.status(200).send();
 });
 
 module.exports = router

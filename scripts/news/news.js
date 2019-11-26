@@ -1,9 +1,9 @@
 class News {
-    constructor(id, author, title, publishedAt) {
-        this.id = id;
-        this.author = author;
-        this.title = title;
-        this.publishedAt = publishedAt;
+    constructor(news) {
+        this.id = news.id;
+        this.author = news.author;
+        this.title = news.title;
+        this.publishedAt = news.publishedAt;
     }
 
     get() {
