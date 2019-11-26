@@ -11,7 +11,7 @@ const logger = new Logger();
 
 let newsList = [];
 
-router.use(function timeLog(req, res, next) {
+router.use((req, res, next) => {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     logger.logInfo(fullUrl, req.body);
     next();
