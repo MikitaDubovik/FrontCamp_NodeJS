@@ -14,7 +14,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "run test",
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",

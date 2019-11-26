@@ -1,12 +1,12 @@
-class News{
-    constructor(){
-        this.id = Math.random();
-        this.author = "author";
-        this.title = "title";
-        this.publishedAt = Date.now();
+class News {
+    constructor(id, author, title, publishedAt) {
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.publishedAt = publishedAt;
     }
 
-    get(){
+    get() {
         return `ID - ${this.id}, Author - ${this.author}, Title - ${this.title}, Published at - ${this.publishedAt} \n`
     }
 }
