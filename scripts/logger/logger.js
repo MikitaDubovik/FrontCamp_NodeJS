@@ -21,13 +21,9 @@ class Logger {
     }
 
     logInfo(url, body) {
-        let bodyParsed = "";
-
-        Object.keys(body).forEach(function (key) {
-
-            bodyParsed += `Key - ${key}, Value - ${body[key]}; `;
-
-        });
+        let bodyParsed = Object.keys(body).reduce((bodyParsed, key) => {
+            return bodyParsed += `Key - ${key}, Value - ${body[key]}; `;
+        }, "");
 
         this.logger.info(`URL - ${url}, body - ${bodyParsed}`);
     }

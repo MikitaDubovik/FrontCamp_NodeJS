@@ -13,11 +13,11 @@ app.use(express.json())
 
 const logger = new Logger();
 
+app.use('/news', news)
+
 app.use(function (err, req, res, next) {
     logger.logError(`Something broke! - ${err.message}`);
-    res.status(500).send(compiledFunction({ errorMessage: `Something broke! - ${err.message}` }));
+    res.status(500).send(compiledFunction({ statusCode: "500", errorMessage: `Something broke! - ${err.message}` }));
 })
-
-app.use('/news', news)
 
 module.exports = app
