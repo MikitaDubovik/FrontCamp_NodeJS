@@ -1,13 +1,15 @@
-var express = require('express')
-var router = express.Router()
+let express = require('express')
+let router = express.Router()
 
 const pug = require('pug');
 const baseCompiledFunction = pug.compileFile('./scripts/pug/base-presentation.pug');
 const dataCompiledFunction = pug.compileFile('./scripts/pug/data.pug');
 const errorCompiledFunction = pug.compileFile('./scripts/pug/error.pug');
 
+const auth = require('../authentication/auth');
+
 //mongoose
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/news', { useNewUrlParser: true });
 
 const News = require('../models/news').News;
@@ -16,12 +18,12 @@ const Logger = require('../logger/logger');
 const logger = new Logger();
 
 router.use((req, res, next) => {
-    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     logger.logInfo(fullUrl, req.body);
     next();
 })
 
-router.get('/', (req, res) => {
+router.get('/', auth.required, (req, res) => {
     News.find(function (err, result) {
         if (err) {
             return next(err);

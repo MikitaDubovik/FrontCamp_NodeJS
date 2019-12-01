@@ -21,6 +21,6 @@ NewsShema.methods.getInfo = function () {
     return `Author - ${this.author}, Title - ${this.title}, Published at - ${this.publishedAt} \n`
 }
 
-var News = mongoose.model('News', NewsShema);
+const News = mongoose.model('News', NewsShema);
 
 exports.News = News;
