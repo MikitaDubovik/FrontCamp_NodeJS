@@ -23,7 +23,7 @@ router.use((req, res, next) => {
     next();
 })
 
-router.get('/', auth.required, (req, res) => {
+router.get('/', (req, res) => {
     News.find(function (err, result) {
         if (err) {
             return next(err);
@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
     })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', auth.required, (req, res) => {
     News.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, result) {
         if (err) {
             console.log(err);
@@ -76,7 +76,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth.required, (req, res) => {
     News.findByIdAndDelete(req.params.id, function (err, result) {
         if (err) {
             return next(err);
