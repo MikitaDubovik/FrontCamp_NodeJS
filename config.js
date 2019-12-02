@@ -13,6 +13,7 @@ const users = require('./scripts/users/users-router')
 const Logger = require('./scripts/logger/logger');
 const pug = require('pug');
 const compiledFunction = pug.compileFile('./scripts/pug/error.pug');
+require('./scripts/authentication/passport');
 
 // parse application/json
 app.use(express.json())
