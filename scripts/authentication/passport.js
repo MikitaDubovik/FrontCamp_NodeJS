@@ -1,8 +1,16 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-//var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+
+passport.serializeUser(function (user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+    cb(null, obj);
+});
 
 passport.use(new LocalStrategy({
     usernameField: 'user[username]',
@@ -22,15 +30,14 @@ passport.use(new LocalStrategy({
     }
 ));
 
-// passport.use(new FacebookStrategy({
-//     clientID: FACEBOOK_APP_ID,
-//     clientSecret: FACEBOOK_APP_SECRET,
-//     callbackURL: "http://www.example.com/auth/facebook/callback"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate(..., function(err, user) {
-//       if (err) { return done(err); }
-//       done(null, user);
-//     });
-//   }
-// ));
+passport.use(new GoogleStrategy({
+    clientID: "361472549358-born02fo06qipm4jmcljdsvgrcte55v8.apps.googleusercontent.com",
+    clientSecret: "jIdso6gCAOiulTxlRumzEX-c",
+    callbackURL: 'http://localhost:3000/auth/google/return'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        User.find({ googleId: profile.id }, function (err, user) {
+            return cb(err, user);
+        });
+    }
+));

@@ -14,9 +14,15 @@ const Logger = require('./scripts/logger/logger');
 const pug = require('pug');
 const compiledFunction = pug.compileFile('./scripts/pug/error.pug');
 require('./scripts/authentication/passport');
+var passport = require('passport');
 
 // parse application/json
 app.use(express.json())
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
 
 const logger = new Logger();
 
