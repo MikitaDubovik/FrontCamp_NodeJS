@@ -3,8 +3,7 @@ let mongoose = require('mongoose');
 let NewsShema = new mongoose.Schema({
     author: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     title: {
         type: String,
@@ -12,13 +11,13 @@ let NewsShema = new mongoose.Schema({
         unique: true
     },
     publishedAt: {
-        type: Date,
-        required: true
+         type: Date,
+         required: true
     }
 })
 
 NewsShema.methods.getInfo = function () {
-    return `Author - ${this.author}, Title - ${this.title}, Published at - ${this.publishedAt} \n`
+    return `ID - ${this._id}, Author - ${this.author}, Title - ${this.title}, Published at - ${this.publishedAt} \n`
 }
 
 const News = mongoose.model('News', NewsShema);

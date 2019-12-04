@@ -31,7 +31,12 @@ app.use('/news', news)
 
 app.use(function (err, req, res, next) {
     logger.logError(`Something broke! - ${err.message}`);
-    res.status(500).send(compiledFunction({ statusCode: "500", errorMessage: `Something broke! - ${err.message}` }));
+    if (err.name === "UnauthorizedError") {
+        res.status(401).send(compiledFunction({ statusCode: "401", errorMessage: `You have to login first` }));
+    }
+    else {
+        res.status(500).send(compiledFunction({ statusCode: "500", errorMessage: `Something broke! - ${err.message}` }));
+    }
 })
 
 exports.app = app;

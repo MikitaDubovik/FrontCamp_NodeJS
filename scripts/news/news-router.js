@@ -23,36 +23,29 @@ router.use((req, res, next) => {
     next();
 })
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     News.find(function (err, result) {
         if (err) {
             return next(err);
         }
 
-        if (result.length !== 0) {
-            res.status(200).send(dataCompiledFunction({ data: result }));
-        } else {
-            res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `No any news` }));
-        }
+        res.status(200).send(dataCompiledFunction({ data: result }));
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     News.findById(req.params.id, function (err, result) {
         if (err) {
             return next(err);
         }
 
-        if (result) {
-            res.status(200).send(baseCompiledFunction({ val: result }));
-        } else {
-            res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `No any news` }));
-        }
+        res.status(200).send(baseCompiledFunction({ val: result }));
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     let news = new News(req.body);
+    news.publishedAt = Date.now();
     news.save(function (err) {
         if (err) {
             next(err);
@@ -62,21 +55,22 @@ router.post('/', (req, res) => {
     })
 });
 
-router.put('/:id', auth.required, (req, res) => {
+router.put('/:id', auth.required, (req, res, next) => {
     News.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, result) {
         if (err) {
-            console.log(err);
+            return next(err);
         }
 
         if (result) {
             res.status(200).send();
         }
-
-        res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `Can't find news with id - ${req.params.id}` }));
+        else {
+            res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `Can't find news with id - ${req.params.id}` }));
+        }
     });
 });
 
-router.delete('/:id', auth.required, (req, res) => {
+router.delete('/:id', auth.required, (req, res, next) => {
     News.findByIdAndDelete(req.params.id, function (err, result) {
         if (err) {
             return next(err);

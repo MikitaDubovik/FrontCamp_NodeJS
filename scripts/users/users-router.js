@@ -4,6 +4,9 @@ const passport = require('passport');
 const User = require('../models/user').User;
 const auth = require('../authentication/auth');
 
+const pug = require('pug');
+const googleInfoCompiledFunction = pug.compileFile('./scripts/pug/google-info.pug');
+
 router.post('/users', function (req, res, next) {
     let user = new User();
 
@@ -56,7 +59,8 @@ router.get('/auth/google',
 router.get('/auth/google/return',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
-        res.redirect('/');
+        let googleUser = req.user[0];
+        res.status(200).send(googleInfoCompiledFunction({ val: googleUser }));
     });
 
 router.get('/user', auth.required, function (req, res, next) {
