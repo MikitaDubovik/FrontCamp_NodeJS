@@ -1,18 +1,34 @@
 let mongoose = require('mongoose');
 
 let NewsShema = new mongoose.Schema({
-    author: {
+    urlToImage: {
         type: String,
         required: true
     },
     title: {
         type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    publishedAt: {
+        type: Date,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    url: {
+        type: String,
         required: true,
         unique: true
     },
-    publishedAt: {
-         type: Date,
-         required: true
+    content: {
+        type: String,
+        required: true
     }
 })
 

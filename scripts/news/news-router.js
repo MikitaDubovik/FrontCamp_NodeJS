@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
             return next(err);
         }
 
-        res.status(200).send(dataCompiledFunction({ data: result }));
+        res.status(200).send(result);
     });
 });
 

@@ -6,6 +6,7 @@ exports.secret = secret;
 //Server libs
 const express = require('express');
 const app = express();
+var cors = require('cors')
 
 //Additional libs
 const news = require('./scripts/news/news-router');
@@ -15,6 +16,8 @@ const pug = require('pug');
 const compiledFunction = pug.compileFile('./scripts/pug/error.pug');
 require('./scripts/authentication/passport');
 var passport = require('passport');
+
+app.use(cors());
 
 // parse application/json
 app.use(express.json())
