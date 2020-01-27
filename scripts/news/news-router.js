@@ -43,6 +43,16 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
+router.get('/title/:title', (req, res, next) => {
+    News.findOne({ title: req.params.title }, function (err, result) {
+        if (err) {
+            return next(err);
+        }
+
+        res.status(200).send(result);
+    });
+});
+
 router.post('/', (req, res, next) => {
     let news = new News(req.body);
     news.publishedAt = Date.now();
@@ -70,8 +80,37 @@ router.put('/:id', auth.required, (req, res, next) => {
     });
 });
 
+router.put('/title/:title', (req, res, next) => {
+    News.findOneAndUpdate({ title: req.params.title }, { $set: req.body }, function (err, result) {
+        if (err) {
+            return next(err);
+        }
+
+        if (result) {
+            res.status(200).send();
+        }
+        else {
+            res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `Can't find news with title - ${req.params.id}` }));
+        }
+    });
+});
+
 router.delete('/:id', auth.required, (req, res, next) => {
     News.findByIdAndDelete(req.params.id, function (err, result) {
+        if (err) {
+            return next(err);
+        }
+
+        if (result) {
+            res.status(200).send();
+        } else {
+            res.status(404).send(errorCompiledFunction({ statusCode: "404", errorMessage: `No any news` }));
+        }
+    });
+});
+
+router.delete('/title/:title', (req, res, next) => {
+    News.findOneAndDelete({ title: req.params.title }, function (err, result) {
         if (err) {
             return next(err);
         }
