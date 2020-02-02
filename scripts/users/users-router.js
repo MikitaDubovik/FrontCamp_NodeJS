@@ -10,9 +10,9 @@ const googleInfoCompiledFunction = pug.compileFile('./scripts/pug/google-info.pu
 router.post('/users', function (req, res, next) {
     let user = new User();
 
-    user.username = req.body.user.username;
-    user.email = req.body.user.email;
-    user.setPassword(req.body.user.password);
+    user.username = req.body.username;
+    user.email = req.body.email;
+    user.setPassword(req.body.password);
 
     user.save().then(function () {
         return res.json({ user: user.toAuthJSON() });
@@ -20,11 +20,11 @@ router.post('/users', function (req, res, next) {
 });
 
 router.post('/users/login', function (req, res, next) {
-    if (!req.body.user.email) {
+    if (!req.body.username) {
         return res.status(422).json({ errors: { email: "can't be blank" } });
     }
 
-    if (!req.body.user.password) {
+    if (!req.body.password) {
         return res.status(422).json({ errors: { password: "can't be blank" } });
     }
 

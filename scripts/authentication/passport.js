@@ -13,8 +13,8 @@ passport.deserializeUser(function (obj, cb) {
 });
 
 passport.use(new LocalStrategy({
-    usernameField: 'user[username]',
-    passwordField: 'user[password]'
+    usernameField: 'username',
+    passwordField: 'password'
 },
     function (username, password, done) {
         User.findOne({ username: username }, function (err, user) {
